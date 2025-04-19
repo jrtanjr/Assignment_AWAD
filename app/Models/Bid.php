@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+
 use Illuminate\Database\Eloquent\Model;
 
 class Bid extends Model
@@ -20,4 +21,14 @@ class Bid extends Model
     protected $attributes = [
         'status' => 'pending',
     ];
+    
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
+    }
+
+    public function freelancer(){
+        return $this->belongsTo(User::class, 'freelancer_id');
+    }
+
 }

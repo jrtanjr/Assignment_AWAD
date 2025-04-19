@@ -32,7 +32,7 @@ class Project extends Model
         return $this->belongsTo(User::class, 'freelancer_id');
     }
 
-    public function bid()
+    public function bids()
     {
         return $this->hasMany(Bid::class);
     }

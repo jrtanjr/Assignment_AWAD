@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Auth;
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-*/
+*/ 
 
 Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -46,9 +46,10 @@ Route::delete('/projects/{project}', [ProjectController::class, 'destroy'])->nam
 
 Route::get('/projects/{project}/bids/create', [BidController::class, 'create'])->name('bids.create');
 Route::post('/projects/{project}/bids', [BidController::class, 'store'])->name('bids.store');
-
-Route::get('/register', [UserController::class,'create'])->name('users.create');
-Route::post('/register', [UserController::class, 'store'])->name('users.store');
+Route::get('/projects/{project}/bids', [BidController::class, 'showBids'])->name('bids.showProjectbids');
+Route::post('/bids/{bid}/assign', [BidController::class, 'assign'])->name('bids.assign');
+Route::get('/bids/{bid}/edit', [BidController::class, 'edit']); //for freelancer to edit the submited bid
+Route::put('/bids/{bid}', [BidController::class, 'update']); //for freelancer to update the submitted bid
 
 Route::get('/projects/{project}/milestones/create', [MilestoneController::class, 'create'])->name('milestones.create');
 Route::post('projects/{project}/milestones', [MilestoneController::class,'store'])->name('milestones.store');

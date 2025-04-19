@@ -6,6 +6,7 @@
     @php
     $isOpen = $project->status === 'open';
     @endphp
+
     @can('view', $project)
         <p><strong>Note:</strong> Created by me</p>
         <button onclick="window.location='{{ route('projects.edit', $project) }}'" {{ $isOpen ? '' : 'disabled'}}>
@@ -25,11 +26,28 @@
     <p><strong>Owner ID:</strong> {{ $project->owner_id }}</p>
     <p><strong>Freelancer ID:</strong> {{ $project->freelancer_id ?? 'Not Assigned' }}</p>
 
-    @if ($isOpen)
+@php
+    $userBid = $bids->firstWhere('freelancer_id', $userId);
+@endphp
+    
+    
+    @if ($isOpen && $project->owner_id === $userId)
+    <a href="/projects/{{ $project->id }}/bids">View Bids</a>
+    <br><br>
+
+    @elseif ($isOpen && $userBid) 
+        <a href="/bids/{{ $userBid->id }}/edit">Edit Your Bid</a>
+        <br><br>
+    
+
+    @elseif ($isOpen)
     <form action="{{ route('bids.create', $project->id) }}" method="GET">
         <button type="submit">Bid Now</button>
     </form>
     @endif
+
+    
+
 
     <a href="{{ route('projects.index') }}">← Back to Project List</a>
     @if ($milestones->isNotEmpty())
