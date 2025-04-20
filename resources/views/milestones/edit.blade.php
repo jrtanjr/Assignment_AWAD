@@ -8,7 +8,7 @@
             <h2>{{ $milestone->title }}</h2>
         </div>
         <div class="card-body">
-            <form action="{{route('milestones.update', [$project->id, $milestone->id])}}" method="POST">
+            <form id="milestoneForm" action="{{ route('milestones.handle', [$project->id, $milestone->id]) }}" method="POST">
                 @csrf
                 @method('PUT')
                 
@@ -59,7 +59,7 @@
                             <option value="completed" {{ $milestone->status == 'completed' ? 'selected' : '' }}>Completed</option>
                         </select>
                     </label>
-                    <button type="submit" name="submitButton" id="submitButton">Submit milestones</button>
+                    <button type="submit" name="submitButton" value='freelancer' id="submitButton">Submit milestones</button>
                 @endcan
                 @can('isOwner', $project)
                     <label>
@@ -72,8 +72,8 @@
                             <option value="paid" {{ $milestone->status == 'paid' ? 'selected' : '' }}>In progress</option>
                         </select>
                     </label>
-                    <button type="submit" name="approveButton" id="approveButton">Pay Now</button>
-
+                    <button type="submit" name="approveButton" value='owner' id="approveButton">Pay Now</button>
+                    
                     {{-- This is when owner want to make payment but freelancer haven't finish the job --}}
                     @elseif(Gate::denies('isOpen', $project))
                         <strong>Status:</strong>
@@ -86,12 +86,13 @@
 
                     {{-- This is when owner want to update milestone before any freelancer is assigned --}}
                     @elseif(Gate::allows('isOpen', $project))
-                        <button type='submit' name='updateMilestone' id="updateMilestone">Update</button>
+                        <button type='submit' name='updateMilestone' value='update' id="updateMilestone">Update</button>
                     @endif
                 @endcan
+            </form>
         </div>
         <div class="card-footer">
-            <a href="{{ route('projects.show', $project->id) }}" class="btn btn-primary">Back to Milestones</a>
+            <a href="{{ route('projects.show', $milestone->project->id) }}" class="btn btn-primary">Back to Project</a>
         </div>
     </div>
 </div>
@@ -120,26 +121,6 @@
                     e.preventDefault();
                 }
             }
-        });
-
-        const baseUpdateUrl = "{{ route('milestones.ownerUpdate', [$project->id, $milestone->id]) }}";
-        const approveUrl = "{{ route('milestones.ownerApprove', [$project->id, $milestone->id]) }}";
-        const updateMilestoneUrl = "{{ route('milestones.freelanceUpdate', [$project->id, $milestone->id]) }}";
-
-        $('#submitButton').on('click', function () {
-            $('#milestoneForm').attr('action', baseUpdateUrl);
-        });
-
-        $('#approveButton').on('click', function () {
-            $('#milestoneForm').attr('action', approveUrl);
-        });
-
-        $('#updateMilestone').on('click', function () {
-            $('#milestoneForm').attr('action', updateMilestoneUrl);
-        });
-
-        $('#disApproveButton').on('click', function (e) {
-            e.preventDefault(); // Prevent if still disabled
         });
     });
 </script>

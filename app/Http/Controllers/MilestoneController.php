@@ -71,4 +71,48 @@ class MilestoneController extends Controller
         return redirect()->route('projects.show', $milestone->project_id)
                         ->with('success','Milestone updated successfully!');
     }
+
+
+
+    //
+    public function handle(Request $request, Project $project, Milestone $milestone)
+    {
+        if ($request->has('submitButton')) {
+            // Freelancer submitting milestone
+            $milestone->status = $request->input('status');
+            $milestone->save();
+            return redirect()->route('projects.show', $milestone->project_id)
+                ->with('success','Milestone updated successfully!');
+}
+
+        elseif ($request->has('approveButton')) {
+            $milestone->status = 'paid';
+            $milestone->save();
+            // Optionally: create Payment record
+            return redirect()->route('projects.show', $milestone->project_id)
+                ->with('success','Milestone updated successfully!');
+}
+
+        elseif ($request->has('updateMilestone')) {
+            // Owner updating milestone
+            $incomingFields = $request->validate([
+                'title' => ['required', 'string', 'max:255'],
+                'description' => ['nullable', 'string'],
+                'amount' => ['required', 'numeric', 'min:0'],
+                'due_date' => ['required', 'date'],
+                'status' => ['required', 'string'],
+            ]);
+            $milestone->status= $incomingFields['status'];
+            $milestone->update($incomingFields);
+            return redirect()->route('projects.show', $milestone->project_id)
+                ->with('success','Milestone updated successfully!');
+
+        }    
+
+        return back()->with('error', 'No valid action provided.');
+    }
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
+    }
 }
