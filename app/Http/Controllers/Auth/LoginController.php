@@ -5,8 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller; 
 use Illuminate\Foundation\Auth\AuthenticatesUsers; 
 use Illuminate\Http\Request; 
-use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Auth; 
 class LoginController extends Controller 
 { 
     /* 
@@ -73,6 +72,11 @@ class LoginController extends Controller
         return view('auth.login', ['url' => 'author']); 
     } 
  
+    public function logInAuthor()
+    {
+        return view('auth.login', ['url' => 'author']);
+    }
+
     public function authorLogin(Request $request) 
     { 
         $this->validate($request, [ 
@@ -103,10 +107,10 @@ class LoginController extends Controller
             session()->forget('author_user_id');
             cookie()->queue(cookie()->forget('author_name'));
         }
-
+    
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-
-        return redirect()->route('cincai');
-}
-}
+    
+        return redirect()->route('logout');
+    }
+} 

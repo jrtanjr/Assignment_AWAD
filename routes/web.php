@@ -24,18 +24,28 @@ use Illuminate\Support\Facades\Auth;
 Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('home');
+})->name('welcome');
 Route::get('/login/admin', [LoginController::class, 'showAdminLoginForm'])->name('admin.login');
 Route::get('/login/author', [LoginController::class, 'showAuthorLoginForm'])->name('author.login');
 Route::post('/login/admin', [LoginController::class, 'adminLogin'])->name('admin.login.submit');
 Route::post('/login/author', [LoginController::class, 'authorLogin'])->name('author.login.submit');
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+Route::get('/logout', function () {
+    return view('/auth/logout');
+})->name('logout.page');
 
 Route::get('/register/admin', [RegisterController::class, 'showAdminRegisterForm'])->name('admin.register');
 Route::get('/register/author', [RegisterController::class, 'showAuthorRegisterForm'])->name('author.register');
 Route::post('/register/admin', [RegisterController::class, 'createAdmin'])->name('admin.register.submit');
 Route::post('/register/author', [RegisterController::class, 'createAuthor'])->name('author.register.submit');
-
+Route::group(['middleware' => 'auth:author'], function () { 
+    Route::view('/author', 'author'); 
+}); 
+ 
+Route::group(['middleware' => 'auth:admin'], function () { 
+    Route::view('/admin', 'admin'); 
+}); 
 Route::get('/projects', [ProjectController::class, 'getOpenProjects'])->name('projects.index');
 Route::get('/projects/ownedProjects', [ProjectController::class, 'getOwnedProjects'])->name('projects.ownedProjects');
 Route::get('/projects/biddedProjects', [ProjectController::class, 'getBiddedProjects'])->name('projects.biddedProjects');

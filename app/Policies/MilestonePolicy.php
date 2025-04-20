@@ -3,7 +3,7 @@
 namespace App\Policies;
 
 use App\Models\Milestone;
-use App\Models\User;
+use App\Models\Author;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class MilestonePolicy
@@ -11,12 +11,12 @@ class MilestonePolicy
     use HandlesAuthorization;
 
     /**
-     * Determine whether the user can view any models.
+     * Determine whether the Author can view any models.
      *
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\Author  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function viewAny(User $user)
+    public function viewAny(Author $user)
     {
         //
     }
@@ -24,59 +24,59 @@ class MilestonePolicy
     /**
      * Determine whether the user can view the model.
      *
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\Author  $user
      * @param  \App\Models\Milestone  $milestone
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, Milestone $milestone)
+    public function view(Author $user, Milestone $milestone)
     {
         //
     }
 
     /**
-     * Determine whether the user can create models.
+     * Determine whether the Author can create models.
      *
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\Author  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function create(User $user)
+    public function create(Author $user)
     {
         //
     }
 
     /**
-     * Determine whether the user can update the model.
+     * Determine whether the Author can update the model.
      *
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\Author  $user
      * @param  \App\Models\Milestone  $milestone
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, Milestone $milestone)
+    public function update(Author $user, Milestone $milestone)
     {
         return $user->id === $milestone->project->freelancer_id || $user->id === $milestone->project->owner_id;
     }
     
 
     /**
-     * Determine whether the user can delete the model.
+     * Determine whether the Author can delete the model.
      *
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\Author  $Author
      * @param  \App\Models\Milestone  $milestone
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, Milestone $milestone)
+    public function delete(Author $Author, Milestone $milestone)
     {
         //
     }
 
     /**
-     * Determine whether the user can restore the model.
+     * Determine whether the Author can restore the model.
      *
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\Author  $user
      * @param  \App\Models\Milestone  $milestone
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, Milestone $milestone)
+    public function restore(Author $user, Milestone $milestone)
     {
         //
     }
@@ -84,11 +84,11 @@ class MilestonePolicy
     /**
      * Determine whether the user can permanently delete the model.
      *
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\Author  $user
      * @param  \App\Models\Milestone  $milestone
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, Milestone $milestone)
+    public function forceDelete(Author $user, Milestone $milestone)
     {
         //
     }

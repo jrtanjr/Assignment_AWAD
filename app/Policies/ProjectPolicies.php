@@ -3,22 +3,22 @@
 namespace App\Policies;
 
 use App\Models\Project;
-use App\Models\User;
+use App\Models\Author;
 use Illuminate\Auth\Access\Response;
 
 class ProjectPolicies
 {
-    public function isFreelancer(User $user, Project $project)
+    public function isFreelancer(Author $user, Project $project)
     {
         return $user->id === $project->freelancer_id;
     }
     
-    public function isOwner(User $user, Project $project)
+    public function isOwner(Author $user, Project $project)
     {
         return $user->id === $project->owner_id;
     }
 
-    public function viewBids(User $user, Project $project)
+    public function viewBids(Author $user, Project $project)
     {
         // Only the owner of the project or freelancers who bid should see bids
         return $user->id === $project->owner_id || $project->bids()->where('freelancer_id', $user->id)->exists();
@@ -27,7 +27,7 @@ class ProjectPolicies
     /**
      * Determine whether the user can view any models.
      */
-    public function viewAny(User $user): bool
+    public function viewAny(Author $user): bool
     {
         return false;
     }
@@ -35,7 +35,7 @@ class ProjectPolicies
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Project $project)
+    public function view(Author $user, Project $project)
     {
         return $project->owner_id === $user->id;
     }
@@ -43,7 +43,7 @@ class ProjectPolicies
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function create(Author $user): bool
     {
         return false;
     }
@@ -51,7 +51,7 @@ class ProjectPolicies
     /**
      * Determine whether the user can update the model.
      */
-    public function updateProject(User $user, Project $project): bool
+    public function updateProject(Author $user, Project $project): bool
     {
         return $project->owner_id === $user->id;
     }
@@ -59,7 +59,7 @@ class ProjectPolicies
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Project $project): bool
+    public function delete(Author $user, Project $project): bool
     {
         return false;
     }
@@ -67,7 +67,7 @@ class ProjectPolicies
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Project $project): bool
+    public function restore(Author $user, Project $project): bool
     {
         return false;
     }
@@ -75,7 +75,7 @@ class ProjectPolicies
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Project $project): bool
+    public function forceDelete(Author $user, Project $project): bool
     {
         return false;
     }
