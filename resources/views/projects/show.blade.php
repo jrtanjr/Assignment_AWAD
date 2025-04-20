@@ -1,4 +1,4 @@
-@extends('layouts.standard')
+@extends('layouts.app')
 
 @section('title','Project page')
 
@@ -37,7 +37,18 @@
         <a href="/bids/{{ $userBid->id }}/edit">Edit Your Bid</a>
         <br><br>
     
-
+     @elseif ($userBid) 
+     <p>
+        <strong>Status:</strong>
+        @if($userBid->status === 'rejected')
+            <span style="color:red; font-weight: bold;">Rejected</span>
+        @elseif($userBid->status === 'accepted')
+            <span style="color:green; font-weight: bold">Accepted</span>
+        @else
+            <span style="color:blue; font-weight: bold">Pending</span>
+        @endif
+        <br><br>
+        
     @elseif ($isOpen)
     <form action="{{ route('bids.create', $project->id) }}" method="GET">
         <button type="submit">Bid Now</button>
@@ -51,7 +62,6 @@
 
             @foreach ($milestones as $milestone)
                 <div class="border p-3 rounded mb-2"><hr>
-                    <strong>Milestone{{ $loop->iteration }}</strong>
                     <p>{{ $milestone->title }}</p>
                     <p>{{ $milestone->amount }}</p>
                     @can('update', $milestone)

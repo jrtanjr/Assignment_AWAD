@@ -9,7 +9,7 @@
         @forelse($bidProjects as $project)
             <li>
                 <a href="{{ route('projects.show', $project['id']) }}">
-                    {{ $project['title'] }} - ${{ number_format( $project['budget'], 2) }}
+                    {{ $project['title'] }} 
                 </a>
             </li>
         @empty  

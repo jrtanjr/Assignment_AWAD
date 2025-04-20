@@ -58,7 +58,7 @@
                             <option value="completed" {{ $milestone->status == 'completed' ? 'selected' : '' }}>Completed</option>
                         </select>
                     </label>
-                    <button type="submit" name="submitButton" value='freelancer' id="submitButton">Submit milestones</button>
+                    <button type="submit" name="submitButton" value='freelancer' id="submitButton" {{$milestone->status == 'completed' ? 'disabled':''}}>Submit milestones</button>
                 @endcan
                 @can('isOwner', $milestone->project)
                     <label>

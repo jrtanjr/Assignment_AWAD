@@ -37,44 +37,6 @@ class MilestoneController extends Controller
             dd($e->getMessage()); // This will display the error message
         }
     }
-    public function ownerUpdate(Request $req, Milestone $milestone)
-    {
-        $incomingFields = $req->validate([
-            'title' => ['required', 'string', 'max:255'],
-            'description' => ['nullable', 'string'],
-            'amount' => ['required', 'numeric', 'min:0'],
-            'due_date' => ['required', 'date'],
-            'status' => ['required', 'string'],
-        ]);
-        $milestone->status= $incomingFields['status'];
-        $milestone->update($incomingFields);
-
-        return redirect()->route('projects.show', $milestone->project_id)
-                        ->with('success','Milestone updated successfully!');
-    }
-    public function ownerApprove(Request $req, Milestone $milestone)
-    {
-        $incomingFields = $req->validate([
-            'status' => ['required', 'string'],
-        ]);
-        $milestone->status= $incomingFields['status'];
-        $milestone->save();
-
-        return redirect()->route('payment.create', $milestone->id);
-    }
-    public function freelanceUpdate(Request $req, Milestone $milestone)
-    {
-        $incomingFields = $req->validate([
-            'status' => ['required', 'string'],
-        ]);
-        $milestone->status= $incomingFields['status'];
-        $milestone->save();
-
-        return redirect()->route('projects.show', $milestone->project_id)
-                        ->with('success','Milestone updated successfully!');
-    }
-
-
 
     //
     public function handle(Request $request, Milestone $milestone)
@@ -92,19 +54,16 @@ class MilestoneController extends Controller
 }
 
         elseif ($request->has('updateMilestone')) {
-            // Owner updating milestone
             $incomingFields = $request->validate([
                 'title' => ['required', 'string', 'max:255'],
                 'description' => ['nullable', 'string'],
                 'amount' => ['required', 'numeric', 'min:0'],
                 'due_date' => ['required', 'date'],
-                'status' => ['required', 'string'],
             ]);
-            $milestone->status= $incomingFields['status'];
             $milestone->update($incomingFields);
+
             return redirect()->route('projects.show', $milestone->project_id)
                 ->with('success','Milestone updated successfully!');
-
         }    
 
         return back()->with('error', 'No valid action provided.');

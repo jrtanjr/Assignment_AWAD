@@ -9,7 +9,7 @@
         @foreach($projects as $bid)
             <li>
                 <a href="{{ route('projects.show', $bid->id) }}">
-                    {{ $bid->title }} - ${{ number_format($bid->budget, 2) }}
+                    {{ $bid->title }}
                 </a>
             </li>
         @endforeach

@@ -8,7 +8,7 @@
         @foreach($projects as $own)
             <li>
                 <a href="{{ route('projects.show', $own->id) }}">
-                    {{ $own->title }} - ${{ number_format($own->budget, 2) }}
+                    {{ $own->title }} 
                 </a>
             </li>
         @endforeach
