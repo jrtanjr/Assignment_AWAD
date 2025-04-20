@@ -2,9 +2,7 @@
 @section('title','Projects')
 
 @section('content')
-    <h1>Open Project(s):</h1>
-    <p>Show current user ID: {{$userId}} </p>
-
+    <h1>Projects</h1>
     <ul>
         @foreach($projects as $project)
             <li>
@@ -14,6 +12,5 @@
             </li>
         @endforeach
     </ul>
-    <br>
 
 @endsection

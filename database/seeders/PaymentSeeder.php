@@ -21,22 +21,18 @@ class PaymentSeeder extends Seeder
         // Create new payments
         Payment::create([
             'milestone_id' => 1,
-            'transaction_id' => 'TXN12345',
             'amount' => 2000,
         ]);
         Payment::create([
             'milestone_id' => 2,
-            'transaction_id' => 'TXN12346',
             'amount' => 5000,
         ]);
         Payment::create([
             'milestone_id' => 3,
-            'transaction_id' => 'TXN12347',
             'amount' => 3000,
         ]);
         Payment::create([
             'milestone_id' => 5,
-            'transaction_id' => 'TXN12348',
             'amount' => 2000,
         ]);
         Payment::reguard();

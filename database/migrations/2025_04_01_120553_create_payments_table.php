@@ -15,7 +15,6 @@ return new class extends Migration
         {
             $table->id();
             $table->foreignId('milestone_id')->constrained('milestones')->onDelete('cascade');
-            $table->string('transaction_id')->unique();
             $table->decimal('amount',10,2);
             $table->timestamps();
         });

@@ -20,12 +20,26 @@
     @endcan
     <h1>{{ $project->title }}</h1>
     <p><strong>Description:</strong> {{ $project->description }}</p>
-    <p><strong>Budget:</strong> ${{ $project->budget }}</p>
+    <p><strong>Total Amount:</strong> ${{ $milestones->sum('amount') }}</p>
     <p><strong>Status:</strong> {{ ucfirst($project->status) }}</p>
     <p><strong>Owner ID:</strong> {{ $project->owner_id }}</p>
     <p><strong>Freelancer ID:</strong> {{ $project->freelancer_id ?? 'Not Assigned' }}</p>
 
-    @if ($isOpen)
+    @php
+    $userBid = $bids->firstWhere('freelancer_id', $userId);
+@endphp
+    
+    
+    @if ($isOpen && $project->owner_id === $userId)
+    <a href="/projects/{{ $project->id }}/bids">View Bids</a>
+    <br><br>
+
+    @elseif ($isOpen && $userBid) 
+        <a href="/bids/{{ $userBid->id }}/edit">Edit Your Bid</a>
+        <br><br>
+    
+
+    @elseif ($isOpen)
     <form action="{{ route('bids.create', $project->id) }}" method="GET">
         <button type="submit">Bid Now</button>
     </form>
@@ -37,13 +51,15 @@
             <h3>Total Milestones: {{ $milestones->count() }}</h3>
 
             @foreach ($milestones as $milestone)
-                <div class="border p-3 rounded mb-2">
-                    <strong>Milestone{{ $loop->iteration }}</strong><br>
+                <div class="border p-3 rounded mb-2"><hr>
+                    <strong>Milestone{{ $loop->iteration }}</strong>
                     <p>{{ $milestone->title }}</p>
-                    
+                    <p>{{ $milestone->amount }}</p>
+                    @can('update', $milestone)
                     <a href="{{ route('milestones.edit', ['project' => $project->id, 'milestone' => $milestone->id]) }}" class="btn btn-sm btn-primary ml-2">
                         Update
                     </a>
+                    @endcan
                 </div>
             @endforeach
         </div>

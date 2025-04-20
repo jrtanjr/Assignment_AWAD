@@ -5,15 +5,16 @@
     <h1>Open Project(s):</h1>
     <p>Show current user ID: {{$userId}} </p>
 
+    <h1>Project(s) assigned to you:</h1>
     <ul>
-        @foreach($projects as $project)
+        @foreach($projects as $bid)
             <li>
-                <a href="{{ route('projects.show', $project->id) }}">
-                    {{ $project->title }} - ${{ number_format($project->budget, 2) }}
+                <a href="{{ route('projects.show', $bid->id) }}">
+                    {{ $bid->title }} - ${{ number_format($bid->budget, 2) }}
                 </a>
             </li>
         @endforeach
     </ul>
     <br>
-
+    
 @endsection

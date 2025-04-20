@@ -53,7 +53,7 @@ class MilestonePolicy
      */
     public function update(User $user, Milestone $milestone)
     {
-        return $user->id === $milestone->project->owner_id;
+        return $user->id === $milestone->project->freelancer_id || $user->id === $milestone->project->owner_id;
     }
     
 

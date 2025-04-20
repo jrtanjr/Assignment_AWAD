@@ -8,6 +8,15 @@ use Illuminate\Auth\Access\Response;
 
 class ProjectPolicies
 {
+    public function isFreelancer(User $user, Project $project)
+    {
+        return $user->id === $project->freelancer_id;
+    }
+    
+    public function isOwner(User $user, Project $project)
+    {
+        return $user->id === $project->owner_id;
+    }
 
     public function viewBids(User $user, Project $project)
     {

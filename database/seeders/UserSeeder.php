@@ -17,7 +17,6 @@ class UserSeeder extends Seeder
             'skill' => 'Laravel, PHP, MySQL',
         ]);
         User::create([
-            'id' => 2, // Freelancer
             'name' => 'Jane Smith',
             'email' => 'janesmith@example.com',
             'password' => Hash::make('securepass'),

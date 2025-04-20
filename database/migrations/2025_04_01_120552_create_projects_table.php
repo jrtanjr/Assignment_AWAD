@@ -18,7 +18,6 @@ return new class extends Migration
             $table->foreignId('freelancer_id')->nullable()->constrained('users')->onDelete('cascade');
             $table->string('title');
             $table->string('description');
-            $table->decimal('budget',10, 2);
             $table->enum('status',['open','assigned','in_progress','completed'])->default('open');
             $table->timestamps();
         });
@@ -32,6 +31,9 @@ return new class extends Migration
         Schema::dropIfExists('projects');
     }
 };
+
+// php artisan migrate --path='database/migrations/2025_04_18_073744_create_authors_table.php'
+// php artisan migrate --path='database/migrations/2025_04_18_073726_create_admins_table.php'
 
 // php artisan migrate --path='database/migrations/0001_01_01_000000_create_users_table.php'
 // php artisan migrate --path='database/migrations/2025_04_01_120552_create_projects_table.php'

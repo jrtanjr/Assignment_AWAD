@@ -1,9 +1,10 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <title>@yield('title') Project List</title>
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -18,6 +19,8 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/navigation.css') }}" rel="stylesheet">
+
 </head>
 <body>
     <div id="app">
@@ -74,10 +77,37 @@
                 </div>
             </div>
         </nav>
-
-        <main class="py-4">
-            @yield('content')
-        </main>
-    </div>
+        <div class="container-fluid">
+            <div class="row">
+                <!-- Sidebar Column - MUST come first in HTML flow -->
+                <div class="col-md-3 order-md-first sidebar-col">
+                    <div class="sidebar-content bg-light p-3 h-100">
+                        <h5 class="mb-3"><strong>Projects Navigation</strong></h5>
+                        <ul class="list-group">
+                            <li class="list-group-item border-0 bg-transparent">
+                                <a href="{{ route('projects.index')}}" class="text-decoration-none">Available Projects</a>
+                            </li>
+                            <li class="list-group-item border-0 bg-transparent">
+                                <a href="{{ route('projects.ownedProjects')}}" class="text-decoration-none">Own Projects</a>
+                            </li>
+                            <li class="list-group-item border-0 bg-transparent">
+                                <a href="{{ route('projects.biddedProjects')}}" class="text-decoration-none">Assigned to me Projects</a>
+                            </li>
+                            <li class="list-group-item border-0 bg-transparent">
+                                <a href="{{ route('projects.bidProjects')}}" class="text-decoration-none">Bidded Projects</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+        
+                <!-- Main Content Column -->
+                <div class="col-md-9 order-md-last main-content-col">
+                    <h2 class="mb-4">Projects</h2>
+                    @yield('script')
+                </div>
+            </div>
+        </div>
+    </div>        
 </body>
 </html>
+

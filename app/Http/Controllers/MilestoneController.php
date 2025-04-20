@@ -30,22 +30,43 @@ class MilestoneController extends Controller
     }
     public function edit(Project $project, Milestone $milestone)
     {
+        $this->authorize('update', $milestone);
         return view('milestones.edit', ['project' => $project, 'milestone' => $milestone]);
     }
 
-    public function update(Request $req,Project $project, Milestone $milestone)
+    public function ownerUpdate(Request $req, Milestone $milestone)
     {
-        $milestone = Milestone::findOrFail($milestone->id);
-
         $incomingFields = $req->validate([
-            'title' => ['required', 'string'],
-            'description' => ['required', 'string'],
-            'amount' => ['required', 'numeric'],
+            'title' => ['required', 'string', 'max:255'],
+            'description' => ['nullable', 'string'],
+            'amount' => ['required', 'numeric', 'min:0'],
             'due_date' => ['required', 'date'],
             'status' => ['required', 'string'],
         ]);
         $milestone->status= $incomingFields['status'];
         $milestone->update($incomingFields);
+
+        return redirect()->route('projects.show', $milestone->project_id)
+                        ->with('success','Milestone updated successfully!');
+    }
+    public function ownerApprove(Request $req, Milestone $milestone)
+    {
+        $incomingFields = $req->validate([
+            'status' => ['required', 'string'],
+        ]);
+        $milestone->status= $incomingFields['status'];
+        $milestone->save();
+
+        return redirect()->route('projects.show', $milestone->project_id)
+                        ->with('success','Milestone updated successfully!');
+    }
+    public function freelanceUpdate(Request $req, Milestone $milestone)
+    {
+        $incomingFields = $req->validate([
+            'status' => ['required', 'string'],
+        ]);
+        $milestone->status= $incomingFields['status'];
+        $milestone->save();
 
         return redirect()->route('projects.show', $milestone->project_id)
                         ->with('success','Milestone updated successfully!');
