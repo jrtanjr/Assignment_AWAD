@@ -14,7 +14,7 @@ class PaymentController extends Controller
     public function create(Milestone $milestone)
     {
         // Check status before showing payment form
-        if ($milestone->status !== 'approved') {
+        if ($milestone->status !== 'completed') {
             return redirect()
                 ->back()
                 ->with('error', 'Cannot process payment: Milestone must be in "approved" status');
@@ -26,7 +26,7 @@ class PaymentController extends Controller
     public function store(Request $req, Milestone $milestone)
     {
 
-        if ($milestone->status !== 'approved') {
+        if ($milestone->status !== 'completed') {
         return back()->with('error', 'Payment can only be made for approved milestones');
     }
         // Logic to process the payment for the milestone

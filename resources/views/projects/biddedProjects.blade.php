@@ -2,10 +2,9 @@
 @section('title','Projects')
 
 @section('content')
-    <h1>Open Project(s):</h1>
+    <h1>Project(s) assigned to you:</h1>
     <p>Show current user ID: {{$userId}} </p>
 
-    <h1>Project(s) assigned to you:</h1>
     <ul>
         @foreach($projects as $bid)
             <li>

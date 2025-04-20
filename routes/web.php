@@ -62,11 +62,15 @@ Route::put('/bids/{bid}', [BidController::class, 'update']); //for freelancer to
 Route::get('/projects/{project}/milestones/create', [MilestoneController::class, 'create'])->name('milestones.create');
 Route::post('projects/{project}/milestones', [MilestoneController::class,'store'])->name('milestones.store');
 
-Route::get('/milestones/index', [MilestoneController::class,'index'])->name('milestones.index');
 Route::get('/milestones/{milestone}/edit', [MilestoneController::class,'edit'])->name('milestones.edit');
-Route::put('/milestones/{milestone}', [MilestoneController::class, 'ownerUpdate'])->name('milestones.ownerUpdate');
-Route::put('/milestones/{milestone}', [MilestoneController::class, 'ownerApprove'])->name('milestones.ownerApprove');
-Route::put('/milestones/{milestone}', [MilestoneController::class, 'freelanceUpdate'])->name('milestones.freelanceUpdate');
+Route::put('/milestones/{milestone}', [MilestoneController::class, 'handle'])->name('milestones.handle');
+// Route::put('/milestones/{milestone}', [MilestoneController::class, 'ownerUpdate'])->name('milestones.ownerUpdate');
+// Route::put('/milestones/{milestone}', [MilestoneController::class, 'ownerApprove'])->name('milestones.ownerApprove');
+// Route::put('/milestones/{milestone}', [MilestoneController::class, 'freelanceUpdate'])->name('milestones.freelanceUpdate');
 
-Route::get('/milestones/{milestone}/payment', [PaymentController::class, 'create'])->name('payment.create');
-Route::post('/milestones/{milestone}/payment', [PaymentController::class, 'store'])->name('payment.store');
+Route::get('/milestones/{milestone}/payment', [PaymentController::class, 'create'])->name('payments.create');
+Route::post('/milestones/{milestone}/payment', [PaymentController::class, 'store'])->name('payments.store');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

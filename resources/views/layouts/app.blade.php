@@ -12,6 +12,7 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -102,12 +103,12 @@
         
                 <!-- Main Content Column -->
                 <div class="col-md-9 order-md-last main-content-col">
-                    <h2 class="mb-4">Projects</h2>
-                    @yield('script')
+                    @yield('content')
                 </div>
             </div>
         </div>
-    </div>        
+    </div>  
+    @yield('script')      
 </body>
 </html>
 
