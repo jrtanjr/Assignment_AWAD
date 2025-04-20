@@ -8,8 +8,8 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
-            AdminSeeder::class,
-            AuthorSeeder::class,
+            // AdminSeeder::class,
+            // AuthorSeeder::class,
             UserSeeder::class,
             ProjectSeeder::class,
             BidSeeder::class,
