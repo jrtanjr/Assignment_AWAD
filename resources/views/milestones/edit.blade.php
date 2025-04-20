@@ -8,7 +8,7 @@
             <h2>{{ $milestone->title }}</h2>
         </div>
         <div class="card-body">
-            <form action="{{route('milestones.update', [$project->id, $milestone->id])}}" method="POST">
+            <form action="{{route('milestones.ownerUpdate', [$milestone->id])}}" method="POST">
                 @csrf
                 @method('PUT')
                 
@@ -91,7 +91,7 @@
                 @endcan
         </div>
         <div class="card-footer">
-            <a href="{{ route('projects.show', $project->id) }}" class="btn btn-primary">Back to Milestones</a>
+            <a href="{{ route('projects.show', $milestone->project->id) }}" class="btn btn-primary">Back to Milestones</a>
         </div>
     </div>
 </div>
