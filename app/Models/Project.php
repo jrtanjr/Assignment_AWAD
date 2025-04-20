@@ -11,7 +11,6 @@ class Project extends Model
         'freelancer_id',
         'title',
         'description',
-        'budget',
     ];
 
 
@@ -32,8 +31,13 @@ class Project extends Model
         return $this->belongsTo(User::class, 'freelancer_id');
     }
 
-    public function bid()
+    public function bids()
     {
         return $this->hasMany(Bid::class);
+    }
+
+    public function milestones()
+    {
+        return $this->hasMany(Milestone::class);
     }
 }

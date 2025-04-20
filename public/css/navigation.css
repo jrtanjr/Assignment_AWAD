@@ -1,0 +1,25 @@
+
+/* Ensure navbar doesn't overlap */
+body {
+    padding-top: 56px;
+}
+
+/* Sidebar styling */
+.sidebar-col {
+    position: sticky;
+    top: 56px;
+    height: calc(100vh - 56px);
+    z-index: 100;
+}
+
+.sidebar-content {
+    background-color: #cce5ff;
+    overflow-y: auto;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+}
+
+/* Main content area */
+.main-content-col {
+    padding: 2rem;
+    background: white;
+}

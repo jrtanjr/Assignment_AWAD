@@ -10,45 +10,33 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Symfony\Contracts\Service\Attribute\Required;
-use App\Models\Author;
 
 class ProjectController extends Controller
 {
-
-    public function getOpenProjects()
+    public function index()
     {
-        $userId = Auth::id();
         $projects = Project::where('status', 'open')
-                      ->where('owner_id', '!=', $userId)
-                      ->get();
-        return view('projects.index', compact('projects','userId'));
-    }
+                    ->where('owner_id', '!=', $userId)
+                    ->get();
 
-    public function getOwnedProjects()
-    {        
-        $userId = Auth::id();
-        $projects = Project::where('owner_id', $userId)->get();
-        return view('projects.ownedProjects', compact('projects', 'userId'));
-    }
+        //Only display the owned project
+        $owner = Project::where('owner_id', $userId)->get();
 
-    public function getBiddedProjects()
-    {
-        $userId = Auth::id();
-        $projects = Project::where('freelancer_id', $userId)->get();
-        return view('projects.biddedProjects', compact('projects', 'userId'));
-    }
+        //Only display the bidded project
+        $bidded = Project::where('freelancer_id', $userId)->get();
 
-    public function getBidProjects()
-    {
-        $userId = Auth::id();
+        //Only display the project that you are bidding
         $bidding = Bid::where('freelancer_id', $userId)->get();
-        $bidProjects = [];
+        //Create new array for the responding projects that the freelancer have submit bid
+        $bidProjects= [];
+        
+        foreach($bidding as $bid){
+            //fetch project based on project_id in each bid
+            $project = Project:: find($bid->project_id);
 
-        foreach ($bidding as $bid) {
-            $project = Project::find($bid->project_id);
-
-            if ($project && $project->freelancer_id !== $userId) {
-                $bidProjects[] = [
+            //Only fetch the project that you are bidding, exclude the project assigned to you
+            if($project && $project->freelancer_id !== $userId){
+                $bidProjects[]=[
                     'id' => $project->id,
                     'title' => $project->title,
                     'budget' => $project->budget
@@ -56,8 +44,9 @@ class ProjectController extends Controller
             }
         }
 
-        return view('projects.bidProjects', compact('bidProjects', 'userId'));
+        return view('projects.index', compact('projects', 'userId', 'owner', 'bidded', 'bidProjects'));
     }
+    
 
     /**
      * Show the form for creating a new resource.
@@ -75,25 +64,20 @@ class ProjectController extends Controller
         $incomingFields = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
+            'budget' => 'required|numeric',
             'milestones' => 'required|array',
             'milestones.*.title' => 'required|string',
             'milestones.*.description' => 'required|string',
             'milestones.*.due_date' => 'required|date',
             'milestones.*.amount' => 'required|numeric',
         ]);
+        $incomingFields['owner_id']=Auth::id();
+        $project = Project::create($incomingFields);
 
-        try {
-            $incomingFields['owner_id'] = Auth::id();
-            $project = Project::create($incomingFields);
-
-            foreach ($incomingFields['milestones'] as $milestone) {
-                $project->milestones()->create($milestone);
-            }
-
-            return redirect()->route('projects.index')->with('success', 'Project created successfully!');
-        } catch (\Exception $e) {
-            return redirect()->back()->withErrors(['error' => 'Failed to create project. Please try again.']);
+        foreach ($incomingFields['milestones'] as $milestone) {
+            $project->milestones()->create($milestone);
         }
+        return redirect()->route('projects.index');
     }
 
     /**
@@ -156,48 +140,4 @@ class ProjectController extends Controller
         $this->authorize('viewBids', $project);
         return response()->json($project->bids);
     }
-    // public function show(Project $project)
-    // {
-    //     $userId = Auth::id(); //get current logged-in user's id
-    //     $milestones = collect();
-    //     $bids = collect();
-    //     $freeOrBoss = null;
-
-    
-    // //Verify the current user's role in the project (Freelancer or Project Owner)
-    // if($userId === $project->owner_id){
-    //     //Project owner
-    //     $milestones = Milestone::where('project_id', $project->id())->get();
-    //     $bids = Bid::where('project_id', $project->id())->get();
-
-    //     //Get project bidder(freelancer)'s name
-    //     $freeOrBoss = \App\Models\Author::find($project->freelancer_id);
-
-    // }
-
-    // elseif($userId === $project->freelancer_id){
-    //     //Project Bidder / freelancer
-    //     $milestones = Milestone::where('project_id', $project->id())->get();
-    //     $bids = Bid::where('project_id', $project->id())->get();
-
-    //     //Get project owner's name
-    //     $freeOrBoss = \App\Models\Author::find($project->owner_id);
-    // }
-
-    // return view('projects.show', compact('project', 'milestones', 'bids', 'freeOrBoss'));
-    // }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

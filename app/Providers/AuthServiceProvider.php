@@ -7,6 +7,8 @@ use App\Models\Project;
 use App\Models\User;
 use App\Policies\MilestonePolicy;
 use App\Policies\ProjectPolicies;
+use App\Policies\UserPolicy;
+use Illuminate\Auth\Access\Gate as AccessGate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -32,5 +34,8 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
+        Gate::define('isOpen', function (User $user, Project $project) {
+            return $project->status === 'open';
+        });
     }
 }
