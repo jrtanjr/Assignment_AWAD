@@ -28,12 +28,15 @@ class MilestoneController extends Controller
         return redirect()->route('projects.show', $project->id)
                         ->with('success','Bid submitted successfully!');
     }
-    public function edit(Project $project, Milestone $milestone)
+    public function edit(Milestone $milestone)
     {
-        $this->authorize('update', $milestone);
-        return view('milestones.edit', ['project' => $project, 'milestone' => $milestone]);
+        try {
+            $this->authorize('update', $milestone);
+            return view('milestones.edit', ['milestone' => $milestone]);
+        } catch (\Exception $e) {
+            dd($e->getMessage()); // This will display the error message
+        }
     }
-
     public function ownerUpdate(Request $req, Milestone $milestone)
     {
         $incomingFields = $req->validate([
@@ -57,8 +60,7 @@ class MilestoneController extends Controller
         $milestone->status= $incomingFields['status'];
         $milestone->save();
 
-        return redirect()->route('projects.show', $milestone->project_id)
-                        ->with('success','Milestone updated successfully!');
+        return redirect()->route('payment.create', $milestone->id);
     }
     public function freelanceUpdate(Request $req, Milestone $milestone)
     {
@@ -75,7 +77,7 @@ class MilestoneController extends Controller
 
 
     //
-    public function handle(Request $request, Project $project, Milestone $milestone)
+    public function handle(Request $request, Milestone $milestone)
     {
         if ($request->has('submitButton')) {
             // Freelancer submitting milestone
@@ -86,11 +88,7 @@ class MilestoneController extends Controller
 }
 
         elseif ($request->has('approveButton')) {
-            $milestone->status = 'paid';
-            $milestone->save();
-            // Optionally: create Payment record
-            return redirect()->route('projects.show', $milestone->project_id)
-                ->with('success','Milestone updated successfully!');
+            return redirect()->route('payments.create', $milestone->id);
 }
 
         elseif ($request->has('updateMilestone')) {
@@ -111,8 +109,5 @@ class MilestoneController extends Controller
 
         return back()->with('error', 'No valid action provided.');
     }
-    public function project()
-    {
-        return $this->belongsTo(Project::class);
-    }
+
 }

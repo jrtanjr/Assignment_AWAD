@@ -104,10 +104,7 @@ class ProjectController extends Controller
         $userId = Auth::id();
         $milestones = collect();
         $bids = Bid::where('project_id', $project->id)->get();
-        
-        if ($project->status === 'assigned' && ($project->freelancer_id === Auth::id() || $project->owner_id === Auth::id())) {
-            $milestones = Milestone::where('project_id', $project->id)->get();
-        }
+        $milestones = Milestone::where('project_id', $project->id)->get();
         
         return view('projects.show', compact('project', 'milestones', 'bids', 'userId'));
     }

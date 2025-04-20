@@ -2,10 +2,9 @@
 @section('title','Projects')
 
 @section('content')
-    <h1>Open Project(s):</h1>
+    <h1>Project(s) you are bidding:</h1>
     <p>Show current user ID: {{$userId}} </p>
 
-    <h1>Project(s) you are bidding:</h1>
     <ul>
         @forelse($bidProjects as $project)
             <li>

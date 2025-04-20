@@ -27,8 +27,7 @@
 
     @php
     $userBid = $bids->firstWhere('freelancer_id', $userId);
-@endphp
-    
+    @endphp
     
     @if ($isOpen && $project->owner_id === $userId)
     <a href="/projects/{{ $project->id }}/bids">View Bids</a>
