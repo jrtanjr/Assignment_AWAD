@@ -1,99 +1,99 @@
 @extends('layouts.app')
 
+@section('title', 'Milestone Details')
+
+@section('styles')
+    <link href="{{ asset('css/milestoneview.css') }}" rel="stylesheet">
+@endsection
+
 @section('content')
 <div class="container">
-    <h1 class="mt-4">Milestone Details</h1>
-    <div class="card mt-4">
-        <div class="card-header">
-            <h2>{{ $milestone->title }}</h2>
-        </div>
-        <div class="card-body">
-            <form id="milestoneForm" action="{{ route('milestones.handle', $milestone) }}" method="POST">
-                @csrf
-                @method('PUT')
-                <label>
-                    @if(Gate::allows('isOpen', $milestone->project))
-                        <strong>Title:</strong>
-                        <input type="text" name="title" value="{{ $milestone->title }}" required>
-                    @else
-                        <strong>Title:</strong>
-                        <p>{{ $milestone->title }}</p>
-                    @endif
-                </label> 
-                <label>
-                    @if(Gate::allows('isOpen', $milestone->project))
-                        <strong>Description:</strong>
-                        <textarea name="description" required>{{ $milestone->description }}</textarea>
-                    @else
-                        <strong>Description:</strong>
-                        <p>{{ $milestone->description }}</p>
-                    @endif
-                </label>
-                
-                <label>
-                    @if(Gate::allows('isOpen', $milestone->project))
-                        <strong>Amount:</strong>
-                        <input type="number" name="amount" value="{{ $milestone->amount }}" required>
-                    @else
-                        <strong>Amount:</strong>
-                        <p>{{ $milestone->amount }}</p>
-                    @endif
-                </label>
-                
-                <label>
-                    @if(Gate::allows('isOpen', $milestone->project))
-                        <strong>Due date:</strong>
-                        <input type="date" name="due_date" value="{{ $milestone->due_date ? \Carbon\Carbon::parse($milestone->due_date)->format('Y-m-d') : '' }}" required>
-                    @else
-                        <strong>Due date:</strong>
-                        <p>{{ $milestone->due_date ? \Carbon\Carbon::parse($milestone->due_date)->format('Y-m-d') : '' }}</p>
-                    @endif
-                </label>
-                {{-- This is when freelancer want to set milestone to completed --}}
-                @can('isFreelancer', $milestone->project)
-                    <label>
-                        <strong>Status:</strong>
-                        <select name="status" required {{ $milestone->status == 'completed' ? 'disabled' : '' }}>
-                            <option value="in_progress" {{ $milestone->status == 'in_progress' ? 'selected' : '' }}>In progress</option>
-                            <option value="completed" {{ $milestone->status == 'completed' ? 'selected' : '' }}>Completed</option>
-                        </select>
-                    </label>
-                    <button type="submit" name="submitButton" value='freelancer' id="submitButton" {{$milestone->status == 'completed' ? 'disabled':''}}>Submit milestones</button>
-                @endcan
-                @can('isOwner', $milestone->project)
-                    <label>
+    <h1><strong>Milestone Details</strong></h1>
+    <div class="form-container">
+        <form id="milestoneForm" action="{{ route('milestones.handle', $milestone) }}" method="POST">
+            @csrf
+            @method('PUT')
 
-                    {{-- This is when owner want to make payment --}}
+            <label>
+                <strong>Title:</strong>
+                @if(Gate::allows('isOpen', $milestone->project))
+                    <input type="text" name="title" value="{{ $milestone->title }}" required>
+                @else
+                    <p>{{ $milestone->title }}</p>
+                @endif
+            </label>
+
+            <label>
+                <strong>Description:</strong>
+                @if(Gate::allows('isOpen', $milestone->project))
+                    <textarea name="description" required>{{ $milestone->description }}</textarea>
+                @else
+                    <p>{{ $milestone->description }}</p>
+                @endif
+            </label>
+
+            <label>
+                <strong>Amount:</strong>
+                @if(Gate::allows('isOpen', $milestone->project))
+                    <input type="number" name="amount" value="{{ $milestone->amount }}" required>
+                @else
+                    <p>{{ $milestone->amount }}</p>
+                @endif
+            </label>
+
+            <label>
+                <strong>Due Date:</strong>
+                @if(Gate::allows('isOpen', $milestone->project))
+                    <input type="date" name="due_date" value="{{ $milestone->due_date ? \Carbon\Carbon::parse($milestone->due_date)->format('Y-m-d') : '' }}" required>
+                @else
+                    <p>{{ $milestone->due_date ? \Carbon\Carbon::parse($milestone->due_date)->format('Y-m-d') : '' }}</p>
+                @endif
+            </label>
+
+            @can('isFreelancer', $milestone->project)
+                <label>
+                    <strong>Status:</strong>
+                    <select name="status" required {{ $milestone->status == 'completed' ? 'disabled' : '' }}>
+                        <option value="in_progress" {{ $milestone->status == 'in_progress' ? 'selected' : '' }}>In Progress</option>
+                        <option value="completed" {{ $milestone->status == 'completed' ? 'selected' : '' }}>Completed</option>
+                    </select>
+                </label>
+            @endcan
+
+            @can('isOwner', $milestone->project)
+                <label>
+                    <strong>Status:</strong>
                     @if($milestone->status == 'completed')
-                        <strong>Status:</strong>
                         <p>Completed</p>
-                    </label>
-                    <button type="submit" name="approveButton" value='owner' id="approveButton">Pay Now</button>
-                    {{-- This is when after owner paid --}}
                     @elseif($milestone->status == 'paid')
-                        <strong>Status:</strong>
                         <p>Paid</p>
-                    </label>
-                    {{-- This is when owner want to make payment but freelancer haven't finish the job --}}
                     @elseif(Gate::denies('isOpen', $milestone->project))
-                        <strong>Status:</strong>
-                        <select name="status" disabled required>
-                            <option value="in_progress" selected>In progress</option>
-                        </select>
-                    </label><br>
-                    <button type="submit" name="disApproveButton" id="disApproveButton" disabled>Pay Now</button>
-                    <p>Payment can only be made when freelancer completed the milestone</p>
+                        <p>In Progress</p>
+                    @endif
+                </label>
+            @endcan
 
-                    {{-- This is when owner want to update milestone before any freelancer is assigned --}}
+            <div class="form-footer">
+                @can('isFreelancer', $milestone->project)
+                    <button type="submit" name="submitButton" value="freelancer" id="submitButton" class="form-btn" {{ $milestone->status == 'completed' ? 'disabled' : '' }}>Submit Milestone</button>
+                @endcan
+
+                @can('isOwner', $milestone->project)
+                    @if($milestone->status == 'completed')
+                        <button type="submit" name="approveButton" value="owner" id="approveButton" class="form-btn">Pay Now</button>
+                    @elseif($milestone->status == 'paid')
+                        <!-- No button for paid status -->
+                    @elseif(Gate::denies('isOpen', $milestone->project))
+                        <button type="submit" name="disApproveButton" id="disApproveButton" class="form-btn" disabled>Pay Now</button>
+                        <p class="error-message">Payment can only be made when the freelancer completes the milestone.</p>
                     @elseif(Gate::allows('isOpen', $milestone->project))
-                        <button type='submit' name='updateMilestone' value='update' id="updateMilestone">Update</button>
+                        <button type="submit" name="updateMilestone" value="update" id="updateMilestone" class="form-btn">Update</button>
                     @endif
                 @endcan
-            </form>
-        </div>
-        <div class="card-footer">
-            <a href="{{ route('projects.show', $milestone->project->id) }}" class="btn btn-primary">Back to Project</a>
-        </div>
+
+                <a href="{{ route('projects.show', $milestone->project->id) }}" class="back-link">Back to Project</a>
+            </div>
+        </form>
     </div>
 </div>
 @endsection
