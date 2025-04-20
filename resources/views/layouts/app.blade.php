@@ -21,14 +21,14 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/navigation.css') }}" rel="stylesheet">
-
+    @yield('styles')
 </head>
 <body>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
+                <a class="navbar-brand" href="{{ route('home') }}">
+                    CodeFlex
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -83,6 +83,13 @@
                 <!-- Sidebar Column - MUST come first in HTML flow -->
                 <div class="col-md-3 order-md-first sidebar-col">
                     <div class="sidebar-content bg-light p-3 h-100">
+                        <!-- Create Project Button -->
+                        <div class="d-grid mb-3">
+                            <a href="{{ route('projects.create') }}" class="btn btn-primary">
+                                + Create Project
+                            </a>
+                        </div>
+        
                         <h5 class="mb-3"><strong>Projects Navigation</strong></h5>
                         <ul class="list-group">
                             <li class="list-group-item border-0 bg-transparent">
@@ -100,8 +107,7 @@
                         </ul>
                     </div>
                 </div>
-        
-                <!-- Main Content Column -->
+                        <!-- Main Content Column -->
                 <div class="col-md-9 order-md-last main-content-col">
                     @yield('content')
                 </div>

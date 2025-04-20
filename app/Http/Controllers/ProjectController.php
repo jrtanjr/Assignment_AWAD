@@ -130,7 +130,6 @@ class ProjectController extends Controller
         $incomingFields = $request->validate([
             'title' => ['string','required','max:50'],
             'description' => ['string','required'],
-            'budget' => ['numeric','required'] 
         ]);
         $project->update($incomingFields);
         
