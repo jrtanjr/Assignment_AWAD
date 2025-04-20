@@ -6,8 +6,7 @@
     <div class="card shadow-sm">
         <div class="card-body">
             <h2 class="card-title mb-3 text-primary">🛠️ Projects Assigned to You</h2>
-            <p class="text-muted">Current User ID: <span class="fw-bold">{{ $userId }}</span></p>
-            
+\            
             @if($projects->isEmpty())
                 <div class="alert alert-info">
                     No projects have been assigned to you yet.

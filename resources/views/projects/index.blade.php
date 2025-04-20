@@ -5,7 +5,6 @@
 <div class="container">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="mb-0">Open Projects</h2>
-        <span class="text-muted">User ID: <strong>{{ $userId }}</strong></span>
     </div>
 
     @if($projects->isEmpty())

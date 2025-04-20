@@ -6,7 +6,6 @@
 <div class="container mt-4">
     <div class="mb-4">
         <h2 class="fw-bold">Your Projects Dashboard</h2>
-        <p class="text-muted">Logged in as User ID: <span class="fw-semibold">{{ $userId }}</span></p>
     </div>
 
     {{-- Open Projects (No Bids) --}}
