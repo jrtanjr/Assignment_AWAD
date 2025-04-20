@@ -20,15 +20,14 @@ class Project extends Model
     ];
 
 
-
     public function owner()
     {
-        return $this->belongsTo(User::class, 'owner_id');
+        return $this->belongsTo(Author::class, 'owner_id');
     }
 
     public function freelancer()
     {
-        return $this->belongsTo(User::class, 'freelancer_id');
+        return $this->belongsTo(Author::class, 'freelancer_id');
     }
 
     public function bids()

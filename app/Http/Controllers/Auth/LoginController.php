@@ -54,13 +54,13 @@ class LoginController extends Controller
         if (Auth::guard('admin')->attempt([
             'email' => $request->email,
             'password' => $request->password
-        ], $request->get('remember'))) {
-        
+        ], $request->has('remember'))) {
+            // 
             // Set session value
-            session(['admin_user_id' => Auth::guard('admin')->id()]);
+            // session(['admin_user_id' => Auth::guard('admin')->id()]);
         
             // Optional: Set a cookie (e.g. admin name, 60 min)
-            cookie()->queue(cookie('admin_name', Auth::guard('admin')->user()->name, 60));
+            // cookie()->queue(cookie('admin_name', Auth::guard('admin')->user()->name, 60));
         
             return redirect()->intended('/admin');
         } 
@@ -87,7 +87,7 @@ class LoginController extends Controller
         if (Auth::guard('author')->attempt([
             'email' => $request->email,
             'password' => $request->password
-        ], $request->get('remember'))) {
+        ], $request->has('remember'))) {
         
             session(['author_user_id' => Auth::guard('author')->id()]);
             cookie()->queue(cookie('author_name', Auth::guard('author')->user()->name, 60));

@@ -27,6 +27,6 @@ class Bid extends Model
     }
 
     public function freelancer(){
-        return $this->belongsTo(User::class, 'freelancer_id');
+        return $this->belongsTo(Author::class, 'freelancer_id');
     }
 }
