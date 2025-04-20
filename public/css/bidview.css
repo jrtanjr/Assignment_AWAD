@@ -1,0 +1,157 @@
+
+    h1 {
+        text-align: center;
+        font-size: 28px;
+        margin-bottom: 20px;
+        color: #2c3e50;
+    }
+
+    .form-container {
+        margin-left: 0;
+        background-color: #f9f9f9;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        max-width: 600px;
+        margin: 20px auto;
+    }
+
+    .form-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 20px;
+    }
+    
+    .back-link {
+        color: #3490dc;
+        text-decoration: none;
+        font-weight: bold;
+    }
+    
+    .back-link:hover {
+        text-decoration: underline;
+    }
+    
+    form label {
+        display: block;
+        font-weight: bold;
+        margin-top: 15px;
+    }
+    
+    form input[type="text"],
+    form input[type="number"],
+    form textarea {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+    }
+    
+    textarea {
+        height: 100px;
+    }
+    
+    .form-btn {
+        background-color: #3490dc;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-weight: bold;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    
+    .form-btn:hover {
+        background-color: #2779bd;
+    }
+
+    .container-bids {
+        max-width: 900px;
+        margin: 30px auto;
+        padding: 20px;
+        background-color: #f8f9fa;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    .title {
+        text-align: center;
+        margin-bottom: 30px;
+        color: #333;
+    }
+    
+    .bid-card {
+        background-color: #fff;
+        padding: 20px;
+        margin-bottom: 20px;
+        border-left: 8px solid #ffc107; /* default yellow */
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        transition: border-color 0.3s ease;
+    }
+    
+    .freelancer-name {
+        font-size: 1.2em;
+        margin-bottom: 8px;
+        color: #222;
+    }
+    
+    .bid-amount {
+        color: #28a745;
+        font-weight: bold;
+    }
+    
+    .bid-message {
+        font-style: italic;
+        color: #555;
+        margin-bottom: 15px;
+    }
+    
+    .btn-assign {
+        padding: 8px 16px;
+        background-color: #28a745;
+        border: none;
+        border-radius: 6px;
+        color: white;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+    
+    .btn-assign:hover {
+        background-color: #218838;
+    }
+    
+    .status-text {
+        margin-top: 10px;
+    }
+    
+    .status-rejected {
+        color: red;
+        font-weight: bold;
+        border-left-color: red;
+    }
+    
+    .status-accepted {
+        color: green;
+        font-weight: bold;
+        border-left-color: #28a745; 
+    }
+    
+    .status-pending {
+        color: blue;
+        font-weight: bold;
+        border-left-color: #ffc107; 
+    }
+
+    a {
+        color: #3498db;
+        text-decoration: none;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
