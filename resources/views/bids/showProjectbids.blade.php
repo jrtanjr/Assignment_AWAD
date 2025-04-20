@@ -1,3 +1,15 @@
+@extends('layouts.app')
+
+@section('title', 'Bidding Page')
+
+@section('styles')
+<link href="{{ asset('css/bidview.css') }}" rel="stylesheet">
+@endsection
+
+@section('content')
+
+
+
 <h1>Bids for {{ $project->title }}</h1>
 
 @foreach($bids as $bid)
@@ -32,3 +44,5 @@
 
 <br>
 <a href="{{ route('projects.index') }}">Back to Project list</a>
+
+@endsection

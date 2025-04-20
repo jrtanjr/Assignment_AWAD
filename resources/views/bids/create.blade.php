@@ -2,8 +2,15 @@
 
 @section('title', 'Bidding Page')
 
+@section('styles')
+<link href="{{ asset('css/bidview.css') }}" rel="stylesheet">
+@endsection
+
 @section('content')
-    <h1>{{ $project->title }}</h1>   
+
+
+    <h1><strong>{{ $project->title }}</strong></h1> 
+    <div class="form-container">
     <form action="{{ route('bids.store', $project->id) }}" method="POST">
         @csrf
         <label>
@@ -13,14 +20,23 @@
         <br>
         <label>
             <strong>Message for project owner:</strong><br>
-            <textarea name="msg" cols="30" rows="10" required></textarea>
+            <textarea name="msg"  required></textarea>
+            
         </label>
+        <div>
         <label>
+            <br>
             <strong>Bid Amount:</strong><br>
             <input type="number" name="bid_amount" min="0" required>
-        </label>
+        </label></div>
         <input type="hidden" name="project_id" value="{{ $project->id }}">
-        <button type='submit'> Submit bid</button>
+
+        <div class="form-footer">
+            <button type='submit' class="form-btn"> Submit bid</button>
+            <a href="{{ route('projects.index') }}" class="back-link">Back to Project list</a>
+        </div>
     </form>
+</div>
+
     
 @endsection

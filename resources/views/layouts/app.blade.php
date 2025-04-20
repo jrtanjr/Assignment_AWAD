@@ -21,6 +21,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/navigation.css') }}" rel="stylesheet">
+    @yield('styles')
 
 </head>
 <body>
