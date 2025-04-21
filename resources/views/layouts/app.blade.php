@@ -96,13 +96,13 @@
                                 <a href="{{ route('projects.index')}}" class="text-decoration-none">Available Projects</a>
                             </li>
                             <li class="list-group-item border-0 bg-transparent">
-                                <a href="{{ route('projects.ownedProjects')}}" class="text-decoration-none">Own Projects</a>
+                                <a href="{{ route('projects.ownedProjects')}}" class="text-decoration-none">My Projects</a>
                             </li>
                             <li class="list-group-item border-0 bg-transparent">
-                                <a href="{{ route('projects.biddedProjects')}}" class="text-decoration-none">Assigned to me Projects</a>
+                                <a href="{{ route('projects.biddedProjects')}}" class="text-decoration-none">Projects Assigned to Me</a>
                             </li>
                             <li class="list-group-item border-0 bg-transparent">
-                                <a href="{{ route('projects.bidProjects')}}" class="text-decoration-none">Bidded Projects</a>
+                                <a href="{{ route('projects.bidProjects')}}" class="text-decoration-none">My Bidding Projects</a>
                             </li>
                         </ul>
                     </div>

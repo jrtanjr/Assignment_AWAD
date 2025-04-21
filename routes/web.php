@@ -7,7 +7,7 @@ use App\Http\Controllers\MilestoneController;
 use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProjectController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -42,6 +42,13 @@ Route::post('/register/author', [RegisterController::class, 'createAuthor'])->na
 Route::group(['middleware' => 'auth:author'], function () { 
     Route::view('/author', 'author'); 
 }); 
+
+
+Route::get('/forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request'); // Show forgot password form
+Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email'); // Handle email and generate OTP
+Route::get('/reset-password', [ForgotPasswordController::class, 'showOtpForm'])->name('password.otp'); // Show OTP verification form
+Route::post('/reset-password', [ForgotPasswordController::class, 'verifyOtp'])->name('password.otp.verify'); // Verify OTP and reset password
+
  
 Route::group(['middleware' => 'auth:admin'], function () { 
     Route::view('/admin', 'admin'); 
