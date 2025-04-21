@@ -88,7 +88,9 @@ class RegisterController extends Controller
         return Author::create([ 
             'name' => $data['name'], 
             'email' => $data['email'], 
-            'password' => Hash::make($data['password']), 
+            'password' => Hash::make($data['password']),
+            'bio' =>$data['bio'],
+            'skill' =>$data['skill'], 
         ]); 
     } 
  
