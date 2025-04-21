@@ -13,8 +13,6 @@ class Project extends Model
         'description',
     ];
 
-
-
     protected $attributes = [
         'status'=> 'open',
     ];

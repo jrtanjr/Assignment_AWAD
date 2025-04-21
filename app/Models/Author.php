@@ -48,4 +48,12 @@ class Author extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    public function projects()
+    {
+        return $this->hasMany(Project::class, 'owner_id');
+    }
+    public function bids()
+    {
+        return $this->hasMany(Bid::class, 'freelancer_id');
+    }
 }

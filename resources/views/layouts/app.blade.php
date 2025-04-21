@@ -93,16 +93,33 @@
                         <h5 class="mb-3"><strong>Projects Navigation</strong></h5>
                         <ul class="list-group">
                             <li class="list-group-item border-0 bg-transparent">
-                                <a href="{{ route('projects.index')}}" class="text-decoration-none">Available Projects</a>
+                                <a href="{{ session()->has('author_user_id') ? route('projects.index') : 'javascript:void(0);' }}"
+                                    class="text-decoration-none {{ session()->has('author_user_id') ? '' : 'text-muted' }}"
+                                    style="{{ session()->has('author_user_id') ? '' : 'pointer-events: none; cursor: default;' }}">
+                                    Available Projects
+                                 </a>
                             </li>
                             <li class="list-group-item border-0 bg-transparent">
-                                <a href="{{ route('projects.ownedProjects')}}" class="text-decoration-none">Own Projects</a>
+                                <a href="{{ session()->has('author_user_id') ? route('projects.ownedProjects') : 'javascript:void(0);' }}"
+                                    class="text-decoration-none {{ session()->has('author_user_id') ? '' : 'text-muted' }}"
+                                    style="{{ session()->has('author_user_id') ? '' : 'pointer-events: none; cursor: default;' }}">
+                                    My Projects
+                                 </a>
+                                                            
                             </li>
                             <li class="list-group-item border-0 bg-transparent">
-                                <a href="{{ route('projects.biddedProjects')}}" class="text-decoration-none">Assigned to me Projects</a>
+                                <a href="{{ session()->has('author_user_id') ? route('projects.biddedProjects') : 'javascript:void(0);' }}"
+                                    class="text-decoration-none {{ session()->has('author_user_id') ? '' : 'text-muted' }}"
+                                    style="{{ session()->has('author_user_id') ? '' : 'pointer-events: none; cursor: default;' }}">
+                                    Projects Assigned To Me 
+                                 </a>                            
                             </li>
                             <li class="list-group-item border-0 bg-transparent">
-                                <a href="{{ route('projects.bidProjects')}}" class="text-decoration-none">Bidded Projects</a>
+                                <a href="{{ session()->has('author_user_id') ? route('projects.bidProjects') : 'javascript:void(0);' }}"
+                                    class="text-decoration-none {{ session()->has('author_user_id') ? '' : 'text-muted' }}"
+                                    style="{{ session()->has('author_user_id') ? '' : 'pointer-events: none; cursor: default;' }}">
+                                    Bidded Projects
+                                 </a>
                             </li>
                         </ul>
                     </div>

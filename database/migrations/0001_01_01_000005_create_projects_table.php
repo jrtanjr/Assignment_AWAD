@@ -31,15 +31,3 @@ return new class extends Migration
         Schema::dropIfExists('projects');
     }
 };
-
-// php artisan migrate --path='database/migrations/2025_04_18_073744_create_authors_table.php'
-// php artisan migrate --path='database/migrations/2025_04_18_073726_create_admins_table.php'
-// php artisan migrate --path='database/migrations/2025_04_20_194939_add_remember_token_to_authors_table.php'
-// php artisan migrate --path='database/migrations/2025_04_01_120552_create_projects_table.php'
-// php artisan migrate --path='database/migrations/2025_04_01_120552_create_bids_table.php'
-// php artisan migrate --path='database/migrations/2025_04_01_120552_create_milestones_table.php'
-// php artisan migrate --path='database/migrations/2025_04_01_120553_create_payments_table.php'
-
-
-
-// php artisan migrate --path='database/migrations/0001_01_01_000000_create_users_table.php'

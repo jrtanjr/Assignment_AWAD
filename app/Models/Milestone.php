@@ -14,15 +14,6 @@ class Milestone extends Model
         'due_date',
     ];
     
-    protected $guarded = [
-        'status',
-        'created_at',
-        'completed_at',
-        'approved_at',
-        'paid_at',
-        'received_at',
-    ];
-    
     protected $attributes = [
         'status' => 'in_progress',
     ];

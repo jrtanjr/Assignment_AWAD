@@ -10,7 +10,6 @@ class DatabaseSeeder extends Seeder
         $this->call([
             AdminSeeder::class,
             AuthorSeeder::class,
-            // UserSeeder::class,
             ProjectSeeder::class,
             BidSeeder::class,
             MilestoneSeeder::class,

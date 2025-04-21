@@ -9,11 +9,10 @@ class Payment extends Model
     //
     protected $fillable = [
         'milestone_id',
-        'transaction_id',
         'amount',
     ];
-
-    protected $guarded = [
-        'created_at',
-    ];
+    public function milestone()
+    {
+        return $this->belongsTo(Milestone::class);
+    }
 }

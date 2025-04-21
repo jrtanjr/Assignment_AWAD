@@ -13,10 +13,6 @@ class Bid extends Model
         'msg',
     ];
 
-    protected $guarded = [
-        'status',
-    ]; 
-
     protected $attributes = [
         'status' => 'pending',
     ];

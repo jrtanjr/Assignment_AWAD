@@ -1,48 +1,34 @@
-<x-guest-layout>
-    <x-auth-card>
-        <x-slot name="logo">
-            <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-            </a>
-        </x-slot>
+@extends('layouts.app')
 
-        <!-- Validation Errors -->
-        <x-auth-validation-errors class="mb-4" :errors="$errors" />
+@section('content')
+<div class="container">
+    <h2>Enter OTP & New Password</h2>
 
-        <form method="POST" action="{{ route('password.update') }}">
-            @csrf
+    @if (session('otp'))
+        <div class="alert alert-info">
+            Your OTP: <strong>{{ session('otp') }}</strong>
+        </div>
+    @endif
 
-            <!-- Password Reset Token -->
-            <input type="hidden" name="token" value="{{ $request->route('token') }}">
+    <form method="POST" action="{{ route('password.update') }}">
+        @csrf
 
-            <!-- Email Address -->
-            <div>
-                <x-label for="email" :value="__('Email')" />
+        <div class="form-group">
+            <label>OTP</label>
+            <input type="text" name="otp" class="form-control" required>
+        </div>
 
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email', $request->email)" required autofocus />
-            </div>
+        <div class="form-group">
+            <label>New Password</label>
+            <input type="password" name="password" class="form-control" required>
+        </div>
 
-            <!-- Password -->
-            <div class="mt-4">
-                <x-label for="password" :value="__('Password')" />
+        <div class="form-group">
+            <label>Confirm New Password</label>
+            <input type="password" name="password_confirmation" class="form-control" required>
+        </div>
 
-                <x-input id="password" class="block mt-1 w-full" type="password" name="password" required />
-            </div>
-
-            <!-- Confirm Password -->
-            <div class="mt-4">
-                <x-label for="password_confirmation" :value="__('Confirm Password')" />
-
-                <x-input id="password_confirmation" class="block mt-1 w-full"
-                                    type="password"
-                                    name="password_confirmation" required />
-            </div>
-
-            <div class="flex items-center justify-end mt-4">
-                <x-button>
-                    {{ __('Reset Password') }}
-                </x-button>
-            </div>
-        </form>
-    </x-auth-card>
-</x-guest-layout>
+        <button class="btn btn-primary mt-2">Reset Password</button>
+    </form>
+</div>
+@endsection
