@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('projects', function (Blueprint $table)
         {
             $table->id();
-            $table->foreignId('owner_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('freelancer_id')->nullable()->constrained('users')->onDelete('cascade');
+            $table->foreignId('owner_id')->constrained('authors')->onDelete('cascade');
+            $table->foreignId('freelancer_id')->nullable()->constrained('authors')->onDelete('cascade');
             $table->string('title');
             $table->string('description');
             $table->enum('status',['open','assigned','in_progress','completed'])->default('open');

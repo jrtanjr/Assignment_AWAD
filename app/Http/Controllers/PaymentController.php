@@ -52,7 +52,6 @@ class PaymentController extends Controller
         Payment::create($incomingFields);
         
         $project = $milestone->project;
-        return response()->view('payments.success', ['projectId' => $milestone->project_id]);
 
         return redirect()->route('projects.show', $project)->with('success', "Payment successful!");
     }

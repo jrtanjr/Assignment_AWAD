@@ -11,10 +11,10 @@ class DatabaseSeeder extends Seeder
             AdminSeeder::class,
             AuthorSeeder::class,
             // UserSeeder::class,
-            // ProjectSeeder::class,
-            // BidSeeder::class,
-            // MilestoneSeeder::class,
-            // PaymentSeeder::class,
+            ProjectSeeder::class,
+            BidSeeder::class,
+            MilestoneSeeder::class,
+            PaymentSeeder::class,
         ]);
     }
 }

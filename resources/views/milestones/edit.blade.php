@@ -2,97 +2,99 @@
 
 @section('content')
 <div class="container">
-    <h1 class="mt-4">Milestone Details</h1>
-    <div class="card mt-4">
-        <div class="card-header">
-            <h2>{{ $milestone->title }}</h2>
+    <h1 class="mt-4 mb-4">Milestone Details</h1>
+
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">{{ $milestone->title }}</h4>
         </div>
+
         <div class="card-body">
             <form id="milestoneForm" action="{{ route('milestones.handle', $milestone) }}" method="POST">
                 @csrf
                 @method('PUT')
-                <label>
+
+                {{-- Title --}}
+                <div class="mb-3">
+                    <label class="form-label"><strong>Title</strong></label>
                     @if(Gate::allows('isOpen', $milestone->project))
-                        <strong>Title:</strong>
-                        <input type="text" name="title" value="{{ $milestone->title }}" required>
+                        <input type="text" class="form-control" name="title" value="{{ $milestone->title }}" required>
                     @else
-                        <strong>Title:</strong>
-                        <p>{{ $milestone->title }}</p>
+                        <p class="form-control-plaintext">{{ $milestone->title }}</p>
                     @endif
-                </label> 
-                <label>
+                </div>
+
+                {{-- Description --}}
+                <div class="mb-3">
+                    <label class="form-label"><strong>Description</strong></label>
                     @if(Gate::allows('isOpen', $milestone->project))
-                        <strong>Description:</strong>
-                        <textarea name="description" required>{{ $milestone->description }}</textarea>
+                        <textarea class="form-control" name="description" rows="3" required>{{ $milestone->description }}</textarea>
                     @else
-                        <strong>Description:</strong>
-                        <p>{{ $milestone->description }}</p>
+                        <p class="form-control-plaintext">{{ $milestone->description }}</p>
                     @endif
-                </label>
-                
-                <label>
+                </div>
+
+                {{-- Amount --}}
+                <div class="mb-3">
+                    <label class="form-label"><strong>Amount</strong></label>
                     @if(Gate::allows('isOpen', $milestone->project))
-                        <strong>Amount:</strong>
-                        <input type="number" name="amount" value="{{ $milestone->amount }}" required>
+                        <input type="number" class="form-control" name="amount" value="{{ $milestone->amount }}" required>
                     @else
-                        <strong>Amount:</strong>
-                        <p>{{ $milestone->amount }}</p>
+                        <p class="form-control-plaintext">${{ number_format($milestone->amount, 2) }}</p>
                     @endif
-                </label>
-                
-                <label>
+                </div>
+
+                {{-- Due Date --}}
+                <div class="mb-3">
+                    <label class="form-label"><strong>Due Date</strong></label>
                     @if(Gate::allows('isOpen', $milestone->project))
-                        <strong>Due date:</strong>
-                        <input type="date" name="due_date" value="{{ $milestone->due_date ? \Carbon\Carbon::parse($milestone->due_date)->format('Y-m-d') : '' }}" required>
+                        <input type="date" class="form-control" name="due_date" value="{{ $milestone->due_date ? \Carbon\Carbon::parse($milestone->due_date)->format('Y-m-d') : '' }}" required>
                     @else
-                        <strong>Due date:</strong>
-                        <p>{{ $milestone->due_date ? \Carbon\Carbon::parse($milestone->due_date)->format('Y-m-d') : '' }}</p>
+                        <p class="form-control-plaintext">{{ $milestone->due_date ? \Carbon\Carbon::parse($milestone->due_date)->format('Y-m-d') : 'N/A' }}</p>
                     @endif
-                </label>
-                {{-- This is when freelancer want to set milestone to completed --}}
+                </div>
+
+                {{-- Freelancer Status Update --}}
                 @can('isFreelancer', $milestone->project)
-                    <label>
-                        <strong>Status:</strong>
-                        <select name="status" required {{ $milestone->status == 'completed' ? 'disabled' : '' }}>
-                            <option value="in_progress" {{ $milestone->status == 'in_progress' ? 'selected' : '' }}>In progress</option>
+                    <div class="mb-3">
+                        <label class="form-label"><strong>Status</strong></label>
+                        <select class="form-select" name="status" required {{ $milestone->status == 'completed' ? 'disabled' : '' }}>
+                            <option value="in_progress" {{ $milestone->status == 'in_progress' ? 'selected' : '' }}>In Progress</option>
                             <option value="completed" {{ $milestone->status == 'completed' ? 'selected' : '' }}>Completed</option>
                         </select>
-                    </label>
-                    <button type="submit" name="submitButton" value='freelancer' id="submitButton" {{$milestone->status == 'completed' ? 'disabled':''}}>Submit milestones</button>
+                    </div>
+                    <button type="submit" name="submitButton" value="freelancer" class="btn btn-success" id="submitButton" {{ $milestone->status == 'completed' ? 'disabled' : '' }}>
+                        Submit Milestone
+                    </button>
                 @endcan
+
+                {{-- Owner Controls --}}
                 @can('isOwner', $milestone->project)
-                    <label>
-
-                    {{-- This is when owner want to make payment --}}
-                    @if($milestone->status == 'completed')
-                        <strong>Status:</strong>
-                        <p>Completed</p>
-                    </label>
-                    <button type="submit" name="approveButton" value='owner' id="approveButton">Pay Now</button>
-                    {{-- This is when after owner paid --}}
-                    @elseif($milestone->status == 'paid')
-                        <strong>Status:</strong>
-                        <p>Paid</p>
-                    </label>
-                    {{-- This is when owner want to make payment but freelancer haven't finish the job --}}
-                    @elseif(Gate::denies('isOpen', $milestone->project))
-                        <strong>Status:</strong>
-                        <select name="status" disabled required>
-                            <option value="in_progress" selected>In progress</option>
-                        </select>
-                    </label><br>
-                    <button type="submit" name="disApproveButton" id="disApproveButton" disabled>Pay Now</button>
-                    <p>Payment can only be made when freelancer completed the milestone</p>
-
-                    {{-- This is when owner want to update milestone before any freelancer is assigned --}}
-                    @elseif(Gate::allows('isOpen', $milestone->project))
-                        <button type='submit' name='updateMilestone' value='update' id="updateMilestone">Update</button>
-                    @endif
+                    <div class="mb-3">
+                        @if($milestone->status == 'completed' || $milestone->status == 'paid')
+                        <label class="form-label"><strong>Status</strong></label>
+                        @endif
+                        @if($milestone->status == 'completed')
+                            <p class="form-control-plaintext text-success">Completed</p>
+                            <button type="submit" name="approveButton" value="owner" class="btn btn-primary">Pay Now</button>
+                        @elseif($milestone->status == 'paid')
+                            <p class="form-control-plaintext text-muted">Paid</p>
+                        @elseif(Gate::denies('isOpen', $milestone->project))
+                            <select class="form-select" disabled>
+                                <option value="in_progress" selected>In Progress</option>
+                            </select>
+                            <button type="button" class="btn btn-secondary mt-2" disabled>Pay Now</button>
+                            <p class="text-danger mt-2">Payment can only be made when freelancer completes the milestone.</p>
+                        @elseif(Gate::allows('isOpen', $milestone->project))
+                            <br><button type="submit" name="updateMilestone" value="update" class="btn btn-warning">Update Milestone</button>
+                        @endif
+                    </div>
                 @endcan
             </form>
         </div>
-        <div class="card-footer">
-            <a href="{{ route('projects.show', $milestone->project->id) }}" class="btn btn-primary">Back to Project</a>
+
+        <div class="card-footer text-end">
+            <a href="{{ route('projects.show', $milestone->project->id) }}" class="btn btn-outline-secondary">← Back to Project</a>
         </div>
     </div>
 </div>
@@ -105,7 +107,6 @@
 
         $('select[name="status"]').on('change', function() {
             const selectedStatus = $(this).val();
-
             if (selectedStatus === 'completed' && initialStatus !== 'completed') {
                 if (!confirm('Are you sure you want to mark this milestone as completed? This action cannot be undone.')) {
                     $(this).val('in_progress');
@@ -115,9 +116,8 @@
 
         $('#submitButton').on('click', function(e) {
             const selectedStatus = $('select[name="status"]').val();
-
             if (selectedStatus === 'completed' && initialStatus !== 'completed') {
-                if (!confirm('You are about to mark this milestone as completed. This action cannot be undone. Do you wish to proceed?')) {
+                if (!confirm('You are about to mark this milestone as completed. This action cannot be undone. Proceed?')) {
                     e.preventDefault();
                 }
             }

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('bids', function(Blueprint $table){
             $table->id();
             $table->foreignId('project_id')->constrained('projects')->onDelete('cascade');
-            $table->foreignId('freelancer_id')->nullable()->constrained('users')->onDelete('cascade');
+            $table->foreignId('freelancer_id')->nullable()->constrained('authors')->onDelete('cascade');
             $table->decimal('bid_amount',10,2);
             $table->text('msg');
             $table->enum('status',['pending','accepted','rejected'])->default('pending');
