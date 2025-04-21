@@ -61,6 +61,34 @@
                             </div>
                         </div>
 
+                        <div class="row mb-3">
+                            <label for="bio" class="col-md-4 col-form-label text-md-end">{{ __('Bio') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="bio" type="textarea" class="form-control @error('bio') is-invalid @enderror" name="bio" value="{{ old('bio') }}" required autocomplete="bio" autofocus>
+
+                                @error('bio')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="skill" class="col-md-4 col-form-label text-md-end">{{ __('Skills') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="skill" type="textarea" class="form-control @error('skill') is-invalid @enderror" name="skill" value="{{ old('skill') }}" required autocomplete="skill" autofocus>
+
+                                @error('skill')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
